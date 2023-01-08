@@ -1,7 +1,21 @@
 body{
-    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 50vw;
+    margin: auto;
+    color: #333;
 }
 
-p{
-    color: green;
+.post{
+    padding: 5px;
+    border: 1px dashed black;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.post:hover{
+    border: 2px solid;
+}
+
+.post>a{
+    color: #333;
 }

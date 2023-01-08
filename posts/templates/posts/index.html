@@ -2,16 +2,16 @@
 
 
 {% block body %}
-    <p>Index</p>
-
     {% for post in posts reversed %}
         <div class="post">
-            <a style="text-decoration: none;" href="{% url post post.id%}">
+            <a style="text-decoration: none;" href="{% url 'post' post.id %}">
                 <h2>{{post.title}}</h2>
+                <h4>By: {{post.user.username}}</h4>
                 <h5>{{post.created_at}}</h5>
                 <p>{{post.body|truncatewords:20}}</p>
             </a>
             
         </div>
     {% endfor %}
+    
 {% endblock %}

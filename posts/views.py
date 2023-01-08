@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
@@ -15,13 +16,25 @@ def index(request):
     ctx = {'posts': posts}
     return render(request, 'posts/index.html', ctx)
 
+
 def post(request, id):
     post = Post.objects.get(id=id)
     ctx = {'post': post}
     return render(request, 'posts/post.html', ctx)
 
 
+@login_required(login_url='login')
 def create_post(request):
+    if request.POST:
+        try:
+            user = request.user 
+            title = request.POST['title']
+            body = request.POST['body']
+            post = Post.objects.create(user=user, title=title, body=body)
+            post.save()
+            return HttpResponseRedirect('post/' + str(post.id))
+        except Exception as e:
+            messages.info(request, f'Error: {e}')
     ctx = {}
     return render(request, 'posts/createpost.html', ctx)
 
