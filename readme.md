@@ -9,7 +9,7 @@ I assume you already have python installed and you know how to use django, but e
 
 ```shell
 # open the project folder in terminal
-cd simple-blog
+cd simple-blog-app
 
 # install project requirements
 pip install -r requirements.txt
