@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from .models import Post, User
+from .forms import PostForm
 
 # Create your views here.
 
@@ -26,16 +27,25 @@ def post(request, id):
 @login_required(login_url='login')
 def create_post(request):
     if request.POST:
-        try:
-            user = request.user 
-            title = request.POST['title']
-            body = request.POST['body']
-            post = Post.objects.create(user=user, title=title, body=body)
-            post.save()
-            return HttpResponseRedirect('post/' + str(post.id))
-        except Exception as e:
-            messages.info(request, f'Error: {e}')
-    ctx = {}
+        form_data = PostForm(request.POST)
+        if form_data.is_valid():
+            form = form_data.save(commit=False)
+            form.user = request.user
+            form.save()
+            print(form.id)
+            return HttpResponseRedirect('post/' + str(form.id))
+    
+    form = PostForm()
+        # try:
+        #     user = request.user 
+        #     title = request.POST['title']
+        #     body = request.POST['body']
+        #     post = Post.objects.create(user=user, title=title, body=body)
+        #     post.save()
+        #     return HttpResponseRedirect('post/' + str(post.id))
+        # except Exception as e:
+        #     messages.info(request, f'Error: {e}')
+    ctx = {'form': form}
     return render(request, 'posts/createpost.html', ctx)
 
 def login_view(request):
@@ -51,7 +61,7 @@ def login_view(request):
             login(request, user)
             return HttpResponseRedirect(reverse("index"))
         else:
-            return render(request, "network/login.html", {
+            return render(request, "posts/login.html", {
                 "message": "Invalid username and/or password."
             })
     else:
@@ -72,7 +82,7 @@ def register(request):
         password = request.POST["password"]
         confirmation = request.POST["confirmation"]
         if password != confirmation:
-            return render(request, "network/register.html", {
+            return render(request, "posts/register.html", {
                 "message": "Passwords must match."
             })
 
