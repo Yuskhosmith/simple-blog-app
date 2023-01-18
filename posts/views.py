@@ -32,19 +32,9 @@ def create_post(request):
             form = form_data.save(commit=False)
             form.user = request.user
             form.save()
-            print(form.id)
             return HttpResponseRedirect('post/' + str(form.id))
     
     form = PostForm()
-        # try:
-        #     user = request.user 
-        #     title = request.POST['title']
-        #     body = request.POST['body']
-        #     post = Post.objects.create(user=user, title=title, body=body)
-        #     post.save()
-        #     return HttpResponseRedirect('post/' + str(post.id))
-        # except Exception as e:
-        #     messages.info(request, f'Error: {e}')
     ctx = {'form': form}
     return render(request, 'posts/createpost.html', ctx)
 

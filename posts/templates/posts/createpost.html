@@ -4,16 +4,10 @@
 {% block body %}
 <form action="{% url 'create_post' %}" method="post">
     {% csrf_token %}
+    {{form.media}}
     {%for field in form%}
         <div class="col-md-6 p-2">{{field|as_crispy_field}}</div>
-        {%endfor%}
-    {{form.media}}
-    <!-- <div class="form-group">
-        <input autofocus class="form-control" type="text" name="title" placeholder="Title">
-    </div>
-    <div class="form-group">
-        <textarea name="body" class="form-control" placeholder="Body"></textarea>
-    </div> -->
+    {%endfor%}
     <input class="btn btn-primary" type="submit" value="Submit">
 </form>
 {% endblock %}

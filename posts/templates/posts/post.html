@@ -1,12 +1,15 @@
 {% extends "posts/layout.html" %}
 
 {% block body %}
+{% load static %}
 
+<link rel="stylesheet" href="{% static 'posts/css/prism.css' %}">
+<script src="{% static 'posts/js/prism.js' %}"></script>
 <div class="post">
     <h2>{{post.title}}</h2>
     <h4>By: {{post.user.username}}</h4>
     <h5>{{post.created_at}}</h5>
-    <p>{{post.body|safe}}</p>
+    <div>{{post.body|safe}}</div>
 </div>
 
 {% endblock %}
